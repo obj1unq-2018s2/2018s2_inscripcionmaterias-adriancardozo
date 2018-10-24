@@ -1,0 +1,16 @@
+import inscripciones.*
+describe "tests de inscripciones"{
+	const alumno = new Estudiante()
+	const tpi = new Carrera() 
+	const objetos1 = new MateriaQueMiraCorrelativas()
+	const intro = new MateriaQueNoMira() 
+	fixture {
+		tpi.agregarMateria(objetos1)
+		objetos1.agregarCorrelativa(intro)
+		tpi.agregarMateria(intro)
+		alumno.agregarCarrera(tpi)
+	}
+	test "test de inscripcion"{
+		assert.error(objetos1.inscribir(alumno))
+	}
+}
