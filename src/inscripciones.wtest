@@ -1,16 +1,32 @@
-import inscripciones.*
+import materias.*
+import carreras.*
+import criteriosInscripcion.*
+import estudiantes.*
 describe "tests de inscripciones"{
 	const alumno = new Estudiante()
 	const tpi = new Carrera() 
-	const objetos1 = new MateriaQueMiraCorrelativas()
-	const intro = new MateriaQueNoMira() 
+	const objetos1 = new MateriaQueMiraCorrelativas(carrera = tpi)
+	const intro = new MateriaQueMiraCorrelativas(carrera = tpi) 
+	const epl = new MateriaQueNoMira(carrera = tpi)
 	fixture {
 		tpi.agregarMateria(objetos1)
-		objetos1.agregarCorrelativa(intro)
 		tpi.agregarMateria(intro)
+		tpi.agregarMateria(epl)
+		objetos1.agregarCorrelativa(intro)
+		intro.agregarCorrelativa(epl)
+		intro.cupo(0)
 		alumno.agregarCarrera(tpi)
+		alumno.aprobarMateria(epl, 9)
 	}
-	test "test de inscripcion"{
-		assert.error(objetos1.inscribir(alumno))
+	test "test de inscripcion a materia ya cursada"{
+		assert.throwsExceptionWithMessage("El estudiante no puede cursar esta materia", { epl.inscribir(alumno, porOrdenLlegada) })
+	}
+	test "test de inscripcion sin correlativa"{
+		assert.throwsExceptionWithMessage("El estudiante no puede cursar esta materia", { objetos1.inscribir(alumno, porOrdenLlegada) })
+	}
+	test "test de inscripcion a materia sin cupo"{
+		assert.that(intro.cumplePrerrequisito(alumno))
+		intro.inscribir(alumno, porOrdenLlegada)
+		assert.that(alumno.estaEnListaDeEspera(intro))
 	}
 }
