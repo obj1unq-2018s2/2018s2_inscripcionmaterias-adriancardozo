@@ -1,3 +1,4 @@
+// TODO Esta implementación del bonus es incorrecta, no es lo que dice el enunciado. 
 object porOrdenLlegada{
 	method criterio(materia, estudiante) = materia.hayCupo()
 }

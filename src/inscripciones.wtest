@@ -19,9 +19,11 @@ describe "tests de inscripciones"{
 		alumno.aprobarMateria(epl, 9)
 	}
 	test "test de inscripcion a materia ya cursada"{
+		// TODO El enunciado indica que el criterio para manejar la lista de espera depende de la materia, ergo no debería ser un parámetro sino un atributo de la materia.
 		assert.throwsExceptionWithMessage("El estudiante no puede cursar esta materia", { epl.inscribir(alumno, porOrdenLlegada) })
 	}
 	test "test de inscripcion sin correlativa"{
+		// TODO Podría ser interesante tener distintos mensajes de error para distintos problemas.
 		assert.throwsExceptionWithMessage("El estudiante no puede cursar esta materia", { objetos1.inscribir(alumno, porOrdenLlegada) })
 	}
 	test "test de inscripcion a materia sin cupo"{
@@ -29,4 +31,6 @@ describe "tests de inscripciones"{
 		intro.inscribir(alumno, porOrdenLlegada)
 		assert.that(alumno.estaEnListaDeEspera(intro))
 	}
+	
+	// TODO Hay tests interesantes, pero es raro no testear el caso de éxito.
 }
